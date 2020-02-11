@@ -1,12 +1,12 @@
-import Vue from "vue";
-import VueRouter, { RouterOptions } from "vue-router";
+import Vue from 'vue';
+import VueRouter, { RouterOptions } from 'vue-router';
 // import Home from "../views/Home.vue";
 
 Vue.use(VueRouter);
 
-import { RouteLayoutInterface } from "./router-types";
+import { RouteLayoutInterface } from './router-types';
 // Layout
-import Layout from "@/layout/index.vue";
+import Layout from '@/layout/index.vue';
 
 // const routes = [
 //   {
@@ -37,31 +37,36 @@ import Layout from "@/layout/index.vue";
  */
 export const constantRoutes: RouteLayoutInterface[] = [
   {
-    path: "/",
+    path: '/vuex',
+    component: () => import('@/views/boy-girl/index.vue'),
+    hidden: true
+  },
+  {
+    path: '/',
     component: Layout,
-    redirect: "/dashboard",
+    redirect: '/dashboard',
     children: [
       {
-        name: "Dashboard",
-        path: "dashboard",
+        name: 'Dashboard',
+        path: 'dashboard',
         component: () =>
           import(
-            /* webpackChunkName: "dashboard"*/ "@/views/dashboard/index.vue"
+            /* webpackChunkName: "dashboard"*/ '@/views/dashboard/index.vue'
           ),
-        meta: { title: "Dashboard", icon: "dashboard", affix: true }
+        meta: { title: 'Dashboard', icon: 'dashboard', affix: true }
       }
     ]
   },
   {
-    path: "/about",
+    path: '/about',
     component: Layout,
-    redirect: "/about/index",
+    redirect: '/about/index',
     children: [
       {
-        path: "index",
-        name: "About",
+        path: 'index',
+        name: 'About',
         component: () =>
-          import(/*webpackChunkName: "about"*/ "@/views/About.vue")
+          import(/*webpackChunkName: "about"*/ '@/views/About.vue')
       }
     ]
   }
@@ -69,7 +74,7 @@ export const constantRoutes: RouteLayoutInterface[] = [
 
 const createRouter = () =>
   new VueRouter({
-    mode: "history", // require service support
+    mode: 'history', // require service support
     scrollBehavior: () => ({ x: 0, y: 0 }),
     routes: constantRoutes
   });

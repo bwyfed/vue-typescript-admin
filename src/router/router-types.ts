@@ -1,4 +1,4 @@
-import Vue, { VueConstructor } from "vue";
+import Vue, { VueConstructor } from 'vue';
 
 export interface RouteMeta {
   title: string;
@@ -24,7 +24,7 @@ interface children {
 export interface RouteLayoutInterface {
   path: string;
   name?: string;
-  component: VueConstructor;
+  component: VueConstructor | (() => Promise<typeof import('*.vue')>);
   redirect?: string;
   hidden?: boolean;
   alwaysShow?: boolean;

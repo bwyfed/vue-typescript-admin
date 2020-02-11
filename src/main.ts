@@ -1,7 +1,7 @@
-import Vue from "vue";
-import App from "./App.vue";
-import router from "./router";
-import store from "./store";
+import Vue from 'vue';
+import App from './App.vue';
+import router from './router';
+import store from './store';
 
 Vue.config.productionTip = false;
 
@@ -9,23 +9,28 @@ Vue.config.productionTip = false;
 import {
   Button,
   Row,
+  Col,
   Container,
   Header,
   Aside,
   Main,
-  Footer
-} from "element-ui";
+  Footer,
+  Message
+} from 'element-ui';
 
 Vue.component(Button.name, Button);
 Vue.component(Row.name, Row);
+Vue.component(Col.name, Col);
 Vue.component(Container.name, Container);
 Vue.component(Header.name, Header);
 Vue.component(Aside.name, Aside);
 Vue.component(Main.name, Main);
 Vue.component(Footer.name, Footer);
 
+Vue.prototype.$message = Message;
+
 new Vue({
   router,
   store,
   render: h => h(App)
-}).$mount("#app");
+}).$mount('#app');
