@@ -10,8 +10,14 @@
   </el-container>
 </template>
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
-export default class Layout extends Vue {}
+import { Component } from 'vue-property-decorator';
+import { mixins } from 'vue-class-component';
+import ResizeMixin from './mixin/ResizeHandler';
+
+@Component({
+  name: 'Layout'
+})
+export default class extends mixins(ResizeMixin) {}
 </script>
 <style lang="less" scoped>
 .el-header,

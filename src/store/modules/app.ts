@@ -1,83 +1,104 @@
-import Cookies from 'js-cookie';
-import { MutationTree, ActionTree, Module } from 'vuex';
-import { AppState } from './modules-types';
+import {
+  VuexModule,
+  Module,
+  Mutation,
+  Action,
+  getModule
+} from 'vuex-module-decorators';
+import {
+  getSidebarStatus,
+  setSidebarStatus,
+  getSize,
+  setSize,
+  setLanguage
+} from '@/utils/cookies';
+import { getLocale } from '@/lang';
+import store from '@/store';
 
-enum SIDEBAR_STATUS_OPEND {
-  CLOSED,
-  OPENED
+export enum DeviceType {
+  Mobile,
+  Desktop
 }
 
-const initAppState = (): AppState => {
-  let sidebarStatusCookie = Cookies.get('sidebarStatus');
-  if (sidebarStatusCookie === undefined) {
-    sidebarStatusCookie = '0';
-  }
-  let sidebarStatus: number;
-  sidebarStatus = parseInt(sidebarStatusCookie);
-  let sidebarOpened: boolean = true;
-  if (sidebarStatus === SIDEBAR_STATUS_OPEND.CLOSED) {
-    sidebarOpened = false;
-  } else if (sidebarStatus === SIDEBAR_STATUS_OPEND.OPENED) {
-    sidebarOpened = true;
-  }
-  let sizeCookie = Cookies.get('size');
-  let size: string = '';
-  if (sizeCookie !== undefined) {
-    size = sizeCookie;
-  }
-  return {
-    sidebar: {
-      opened: sidebarOpened,
-      withoutAnimation: false
-    },
-    device: 'desktop',
-    size: size || 'medium'
+export interface IAppState {
+  sidebar: {
+    opened: boolean;
+    withoutAnimation: boolean;
   };
-};
+  device: DeviceType; // 改进
+  language: string;
+  size: string;
+}
 
-const state: AppState = initAppState();
+@Module({ dynamic: true, store, name: 'app' })
+class App extends VuexModule implements IAppState {
+  public sidebar = {
+    opened: getSidebarStatus() !== 'closed',
+    withoutAnimation: false
+  };
+  public device = DeviceType.Desktop;
+  public language = getLocale();
+  public size = getSize() || 'medium';
 
-const mutations: MutationTree<AppState> = {
-  TOGGLE_SIDEBAR: state => {
-    state.sidebar.opened = !state.sidebar.opened;
-    state.sidebar.withoutAnimation = false;
-    if (state.sidebar.opened) {
-      Cookies.set('sidebarStatus', '1');
+  @Mutation
+  private TOGGLE_SIDEBAR(withoutAnimation: boolean) {
+    this.sidebar.opened = !this.sidebar.opened;
+    this.sidebar.withoutAnimation = withoutAnimation;
+    if (this.sidebar.opened) {
+      setSidebarStatus('opened');
     } else {
-      Cookies.set('sidebarStatus', '0');
+      setSidebarStatus('closed');
     }
-  },
-  CLOSE_SIDEBAR: (state, withoutAnimation) => {
-    Cookies.set('sidebarStatus', '0');
-    state.sidebar.opened = false;
-    state.sidebar.withoutAnimation = withoutAnimation;
-  },
-  TOGGLE_DEVICE: (state, device) => {
-    state.device = device;
-  },
-  SET_SIZE: (state, size) => {
-    state.size = size;
   }
-};
 
-const actions: ActionTree<AppState, AppState> = {
-  toggleSidebar({ commit }) {
-    commit('TOGGLE_SIDEBAR');
-  },
-  closeSideBar({ commit }, { withoutAnimation }) {
-    commit('CLOSE_SIDEBAR', withoutAnimation);
-  },
-  toggleDevice({ commit }, device) {
-    commit('TOGGLE_DEVICE', device);
-  },
-  setSize({ commit }, size) {
-    commit('SET_SIZE', size);
+  @Mutation
+  private CLOSE_SIDEBAR(withoutAnimation: boolean) {
+    this.sidebar.opened = false;
+    this.sidebar.withoutAnimation = withoutAnimation;
+    setSidebarStatus('closed');
   }
-};
 
-export const app: Module<AppState, AppState> = {
-  namespaced: true,
-  state,
-  mutations,
-  actions
-};
+  @Mutation
+  private TOGGLE_DEVICE(device: DeviceType) {
+    this.device = device;
+  }
+
+  @Mutation
+  private SET_LANGUAGE(language: string) {
+    this.language = language;
+    setLanguage(this.language);
+  }
+
+  @Mutation
+  private SET_SIZE(size: string) {
+    this.size = size;
+    setSize(this.size);
+  }
+
+  @Action
+  public ToggleSidebar(withoutAnimation: boolean) {
+    this.TOGGLE_SIDEBAR(withoutAnimation);
+  }
+
+  @Action
+  public CloseSideBar(withoutAnimation: boolean) {
+    this.CLOSE_SIDEBAR(withoutAnimation);
+  }
+
+  @Action
+  public ToggleDevice(device: DeviceType) {
+    this.TOGGLE_DEVICE(device);
+  }
+
+  @Action
+  public SetLanguage(language: string) {
+    this.SET_LANGUAGE(language);
+  }
+
+  @Action
+  public SetSize(size: string) {
+    this.SET_SIZE(size);
+  }
+}
+
+export const AppModule = getModule(App);
