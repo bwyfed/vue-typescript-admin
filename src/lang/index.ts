@@ -8,7 +8,7 @@ import elementEnLocale from 'element-ui/lib/locale/lang/en';
 import elementZhLocale from 'element-ui/lib/locale/lang/zh-CN';
 import elementEsLocale from 'element-ui/lib/locale/lang/es';
 import elementJaLocale from 'element-ui/lib/locale/lang/ja';
-import elementLocale from 'element-ui/lib/locale';
+// import elementLocale from 'element-ui/lib/locale/index.js';
 
 // User defined lang
 import enLocale from './en';
@@ -60,5 +60,5 @@ const i18n = new VueI18n({
   messages // set locale messages
 });
 
-elementLocale.i18n((key: string, value: string) => i18n.t(key, value));
+// elementLocale.i18n((key: string, value: string) => i18n.t(key, value));
 export default i18n;

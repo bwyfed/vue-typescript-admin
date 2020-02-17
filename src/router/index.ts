@@ -43,6 +43,7 @@ export const constantRoutes: RouteLayoutInterface[] = [
   },
   {
     path: '/',
+    name: '首页',
     component: Layout,
     redirect: '/dashboard',
     children: [
