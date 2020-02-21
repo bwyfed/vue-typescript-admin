@@ -12,7 +12,33 @@
               />
             </router-link>
           </el-col>
-          <el-col :span="16">16</el-col>
+          <el-col :span="16">
+            <el-menu
+              :router="true"
+              :default-active="activeMenu"
+              :background-color="variables.menuBg"
+              :text-color="variables.menuText"
+              :active-text-color="variables.menuActiveText"
+              mode="horizontal"
+            >
+              <el-menu-item
+                v-for="route of routes"
+                :key="route.path"
+                :index="route"
+                :route="route.path"
+              >
+                <template v-if="!route.hidden && route.meta">
+                  <svg-icon
+                    v-if="route.meta.icon"
+                    :name="route.meta.icon"
+                  ></svg-icon>
+                  <span v-if="route.meta.title" slot="title">{{
+                    $t('route.' + route.meta.title)
+                  }}</span>
+                </template>
+              </el-menu-item>
+            </el-menu>
+          </el-col>
           <el-col :span="5">5</el-col>
         </el-row>
       </div>
@@ -30,8 +56,9 @@
 import { Component, Vue } from 'vue-property-decorator';
 import { AppModule, DeviceType } from '@/store/modules/app';
 import { constantRoutes } from '@/router/index';
+import variables from '@/styles/_variables.less';
 @Component({
-  name: 'TopNav'
+  name: 'TopNav',
 })
 export default class extends Vue {
   get isMobile() {
@@ -39,6 +66,20 @@ export default class extends Vue {
   }
   get routes() {
     return constantRoutes;
+  }
+
+  get activeMenu() {
+    const route = this.$route;
+    const { meta, path } = route;
+    // if set path, the top nav bar will highlight the path you set
+    if (meta.activeMenu) {
+      return meta.activeMenu;
+    }
+    return path;
+  }
+
+  get variables() {
+    return variables;
   }
 }
 </script>

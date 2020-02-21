@@ -6,7 +6,8 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "svg": "vsvg -s ./src/icons/svg -t ./src/icons/components --ext ts --es6"
   },
   "dependencies": {
     "core-js": "^3.6.4",
@@ -17,6 +18,7 @@
     "vue-i18n": "^8.15.3",
     "vue-property-decorator": "^8.4.0",
     "vue-router": "^3.1.5",
+    "vue-svgicon": "^3.2.6",
     "vuex": "^3.1.2",
     "vuex-class": "^0.3.2",
     "vuex-module-decorators": "^0.16.1"

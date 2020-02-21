@@ -39,13 +39,14 @@ export const constantRoutes: RouteLayoutInterface[] = [
   {
     path: '/vuex',
     component: () => import('@/views/boy-girl/index.vue'),
-    hidden: true
+    hidden: true,
   },
   {
     path: '/',
     name: '首页',
     component: Layout,
     redirect: '/dashboard',
+    meta: { title: 'dashboard', icon: 'dashboard', affix: true },
     children: [
       {
         name: 'Dashboard',
@@ -54,30 +55,31 @@ export const constantRoutes: RouteLayoutInterface[] = [
           import(
             /* webpackChunkName: "dashboard"*/ '@/views/dashboard/index.vue'
           ),
-        meta: { title: 'Dashboard', icon: 'dashboard', affix: true }
-      }
-    ]
+        meta: { title: 'dashboard', icon: 'dashboard' },
+      },
+    ],
   },
   {
     path: '/about',
     component: Layout,
     redirect: '/about/index',
+    meta: { title: 'documentation', icon: 'documentation' },
     children: [
       {
         path: 'index',
         name: 'About',
         component: () =>
-          import(/*webpackChunkName: "about"*/ '@/views/About.vue')
-      }
-    ]
-  }
+          import(/*webpackChunkName: "about"*/ '@/views/About.vue'),
+      },
+    ],
+  },
 ];
 
 const createRouter = () =>
   new VueRouter({
     mode: 'history', // require service support
     scrollBehavior: () => ({ x: 0, y: 0 }),
-    routes: constantRoutes
+    routes: constantRoutes,
   });
 
 const router = createRouter();
