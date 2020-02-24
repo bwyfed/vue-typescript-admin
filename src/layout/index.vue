@@ -4,9 +4,9 @@
       <top-navbar></top-navbar>
     </el-header>
     <el-container>
-      <el-aside width="200px">{{
-        $t('navbar.profile') + '-' + $t('el.datepicker.today')
-      }}</el-aside>
+      <el-aside width="200px">
+        <sidebar v-if="update" />
+      </el-aside>
       <el-main>
         <router-view />
       </el-main>
@@ -14,24 +14,32 @@
   </el-container>
 </template>
 <script lang="ts">
-import { Component } from 'vue-property-decorator';
+import { Component, Watch } from 'vue-property-decorator';
 import { mixins } from 'vue-class-component';
 import ResizeMixin from './mixin/ResizeHandler';
 import { DeviceType } from '../store/modules/app';
-import { TopNavbar } from './components';
+import { TopNavbar, Sidebar } from './components';
 
 @Component({
   name: 'Layout',
-  components: { TopNavbar }
+  components: { TopNavbar, Sidebar },
 })
 export default class extends mixins(ResizeMixin) {
+  private update = true;
   get classObj() {
     return {
       hideSidebar: !this.sidebar.opened,
       openSidebar: this.sidebar.opened,
       withoutAnimation: this.sidebar.withoutAnimation,
-      mobile: this.device === DeviceType.Mobile
+      mobile: this.device === DeviceType.Mobile,
     };
+  }
+  @Watch('$route')
+  private needRefresh() {
+    this.update = false;
+    this.$nextTick(() => {
+      this.update = true;
+    });
   }
 }
 </script>

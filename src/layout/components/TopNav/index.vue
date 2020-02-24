@@ -3,7 +3,7 @@
     <div v-if="!isMobile" class="top-nav">
       <div class="top-nav-content">
         <el-row :gutter="20">
-          <el-col :span="3">
+          <el-col :span="4">
             <router-link class="logo-link" to="/about">
               <img
                 class="logo"
@@ -23,8 +23,8 @@
             >
               <el-menu-item
                 v-for="route of routes"
-                :key="route.path"
-                :index="route"
+                :key="route.name"
+                :index="route.path"
                 :route="route.path"
               >
                 <template v-if="!route.hidden && route.meta">
@@ -39,7 +39,7 @@
               </el-menu-item>
             </el-menu>
           </el-col>
-          <el-col :span="5">5</el-col>
+          <el-col :span="4">4</el-col>
         </el-row>
       </div>
     </div>
@@ -53,7 +53,8 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Watch } from 'vue-property-decorator';
+import { Route } from 'vue-router';
 import { AppModule, DeviceType } from '@/store/modules/app';
 import { constantRoutes } from '@/router/index';
 import variables from '@/styles/_variables.less';

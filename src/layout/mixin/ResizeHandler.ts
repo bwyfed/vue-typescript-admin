@@ -1,10 +1,11 @@
 import { Component, Vue, Watch } from 'vue-property-decorator';
 import { AppModule, DeviceType } from '@/store/modules/app';
+import { constantRoutes } from '@/router';
 
 const WIDTH = 992; // refer to Bootstrap's responsive design
 
 @Component({
-  name: 'ResizeMixin'
+  name: 'ResizeMixin',
 })
 export default class extends Vue {
   get device() {
@@ -17,14 +18,18 @@ export default class extends Vue {
 
   @Watch('$route')
   private onRouteChange() {
+    // 刷新页面或者第一次进入页面的时候，此方法不执行
+    const route = this.$route;
     if (this.device === DeviceType.Mobile && this.sidebar.opened) {
       AppModule.CloseSideBar(false);
     }
+    this.setSidebarRoutes();
   }
 
   beforeMount() {
     console.log('ResizeHandler beforeMount');
     window.addEventListener('resize', this.resizeHandler);
+    this.setSidebarRoutes();
   }
 
   mounted() {
@@ -53,6 +58,25 @@ export default class extends Vue {
       if (isMobile) {
         AppModule.CloseSideBar(true);
       }
+    }
+  }
+
+  private setSidebarRoutes() {
+    console.log('setSidebarRoutes');
+    let redirectedFrom = this.$route.redirectedFrom;
+    if (!redirectedFrom || redirectedFrom === '/') {
+      let path = this.$route.matched[0].path;
+      if (path === '') {
+        path = '/';
+      }
+      redirectedFrom = path;
+    }
+    const whichRoute = constantRoutes.filter(val => {
+      return val.path === redirectedFrom;
+    });
+    if (whichRoute.length === 1) {
+      console.log('setSidebarRoutes, whichRoute', whichRoute[0]);
+      AppModule.SetCurrentSecondaryRoute(whichRoute[0].children);
     }
   }
 }

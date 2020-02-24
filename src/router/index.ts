@@ -4,7 +4,7 @@ import VueRouter, { RouterOptions } from 'vue-router';
 
 Vue.use(VueRouter);
 
-import { RouteLayoutInterface } from './router-types';
+import { RouteLayoutInterface, IRouteBasic } from './router-types';
 // Layout
 import Layout from '@/layout/index.vue';
 
@@ -30,6 +30,20 @@ import Layout from '@/layout/index.vue';
 //   base: process.env.BASE_URL,
 //   routes
 // });
+export const hiddenRoutes: Array<IRouteBasic> = [
+  {
+    path: '/vuex',
+    name: 'VuexTest',
+    component: () => import('@/views/boy-girl/index.vue'),
+    hidden: true,
+  },
+  {
+    path: '/',
+    name: 'Root',
+    redirect: '/dashboard',
+    hidden: true,
+  },
+];
 /**
  * constantRoutes
  * a base page that does not have permission requirements
@@ -37,39 +51,79 @@ import Layout from '@/layout/index.vue';
  */
 export const constantRoutes: RouteLayoutInterface[] = [
   {
-    path: '/vuex',
-    component: () => import('@/views/boy-girl/index.vue'),
-    hidden: true,
-  },
-  {
-    path: '/',
-    name: '首页',
+    path: '/dashboard',
+    name: 'DashboardRoot',
     component: Layout,
-    redirect: '/dashboard',
-    meta: { title: 'dashboard', icon: 'dashboard', affix: true },
+    redirect: '/dashboard/index',
+    meta: {
+      title: 'dashboard',
+      icon: 'dashboard',
+      affix: true,
+    },
     children: [
       {
-        name: 'Dashboard',
-        path: 'dashboard',
+        name: 'DashboardIndex',
+        path: 'index',
         component: () =>
           import(
             /* webpackChunkName: "dashboard"*/ '@/views/dashboard/index.vue'
           ),
-        meta: { title: 'dashboard', icon: 'dashboard' },
+        meta: {
+          title: 'dashboard',
+          icon: 'dashboard',
+          activeMenu: '/dashboard',
+        },
+        fullPath: '/dashboard/index',
+      },
+      {
+        path: 'about',
+        name: 'DashboardAbout',
+        component: () =>
+          import(/*webpackChunkName: "about"*/ '@/views/About.vue'),
+        meta: {
+          title: 'charts',
+          icon: 'education',
+          activeMenu: '/dashboard',
+        },
+        fullPath: '/dashboard/about',
       },
     ],
   },
   {
-    path: '/about',
+    path: '/documentation',
+    name: 'DocumentationRoot',
     component: Layout,
-    redirect: '/about/index',
-    meta: { title: 'documentation', icon: 'documentation' },
+    redirect: '/documentation/index',
+    meta: {
+      title: 'documentation',
+      icon: 'documentation',
+    },
     children: [
       {
         path: 'index',
-        name: 'About',
+        name: 'DocumentationAbout',
         component: () =>
           import(/*webpackChunkName: "about"*/ '@/views/About.vue'),
+        meta: {
+          title: 'documentation',
+          icon: 'documentation',
+          activeMenu: '/documentation',
+        },
+        fullPath: '/documentation/index',
+      },
+      {
+        path: 'second',
+        name: 'DocumentationSecond',
+        component: () =>
+          import(
+            /*webpackChunkName: "docSecond"*/ '@/components/HelloWorld.vue'
+          ),
+        meta: {
+          title: 'tinymce',
+          icon: 'email',
+          activeMenu: '/documentation',
+        },
+        fullPath: '/documentation/second',
       },
     ],
   },
@@ -79,7 +133,7 @@ const createRouter = () =>
   new VueRouter({
     mode: 'history', // require service support
     scrollBehavior: () => ({ x: 0, y: 0 }),
-    routes: constantRoutes,
+    routes: [...hiddenRoutes, ...constantRoutes],
   });
 
 const router = createRouter();

@@ -3,21 +3,22 @@ import {
   Module,
   Mutation,
   Action,
-  getModule
+  getModule,
 } from 'vuex-module-decorators';
 import {
   getSidebarStatus,
   setSidebarStatus,
   getSize,
   setSize,
-  setLanguage
+  setLanguage,
 } from '@/utils/cookies';
 import { getLocale } from '@/lang';
 import store from '@/store';
+import { children } from '@/router/router-types';
 
 export enum DeviceType {
   Mobile,
-  Desktop
+  Desktop,
 }
 
 export interface IAppState {
@@ -28,17 +29,19 @@ export interface IAppState {
   device: DeviceType; // 改进
   language: string;
   size: string;
+  currentSecondaryRoute?: any;
 }
 
 @Module({ dynamic: true, store, name: 'app' })
 class App extends VuexModule implements IAppState {
   public sidebar = {
     opened: getSidebarStatus() !== 'closed',
-    withoutAnimation: false
+    withoutAnimation: false,
   };
   public device = DeviceType.Desktop;
   public language = getLocale();
   public size = getSize() || 'medium';
+  public currentSecondaryRoute = null;
 
   @Mutation
   private TOGGLE_SIDEBAR(withoutAnimation: boolean) {
@@ -73,6 +76,18 @@ class App extends VuexModule implements IAppState {
   private SET_SIZE(size: string) {
     this.size = size;
     setSize(this.size);
+  }
+
+  @Mutation
+  private SET_CURRENT_SECONDARY_ROUTE(children: any) {
+    if (children !== null) {
+      this.currentSecondaryRoute = children;
+    }
+  }
+
+  @Action
+  public SetCurrentSecondaryRoute(children: any) {
+    this.SET_CURRENT_SECONDARY_ROUTE(children);
   }
 
   @Action

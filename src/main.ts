@@ -5,6 +5,7 @@ import router from './router';
 import store from './store';
 import i18n from '@/lang';
 import '@/icons/components';
+import '@/styles/_svgicon.less';
 
 Vue.config.productionTip = false;
 
@@ -21,6 +22,7 @@ import {
   Message,
   Menu,
   MenuItem,
+  InfiniteScroll,
 } from 'element-ui';
 
 Vue.component(Button.name, Button);
