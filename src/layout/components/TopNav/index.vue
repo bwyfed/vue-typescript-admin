@@ -4,42 +4,52 @@
       <div class="top-nav-content">
         <el-row :gutter="20">
           <el-col :span="4">
-            <router-link class="logo-link" to="/about">
-              <img
+            <div class="grid-content">
+              <router-link class="logo-link" to="/">
+                <!-- <img
                 class="logo"
                 src="../../../assets/logo.jpg"
                 alt="company logo"
-              />
-            </router-link>
+              /> -->
+                <h3>智规智优仿真</h3>
+              </router-link>
+            </div>
           </el-col>
           <el-col :span="16">
-            <el-menu
-              :router="true"
-              :default-active="activeMenu"
-              :background-color="variables.menuBg"
-              :text-color="variables.menuText"
-              :active-text-color="variables.menuActiveText"
-              mode="horizontal"
-            >
-              <el-menu-item
-                v-for="route of routes"
-                :key="route.name"
-                :index="route.path"
-                :route="route.path"
+            <div class="grid-content">
+              <el-menu
+                :router="true"
+                :default-active="activeMenu"
+                :background-color="variables.topBarMenuBg"
+                :text-color="variables.topBarMenuText"
+                :active-text-color="variables.topBarMenuActiveText"
+                mode="horizontal"
               >
-                <template v-if="!route.hidden && route.meta">
-                  <svg-icon
-                    v-if="route.meta.icon"
-                    :name="route.meta.icon"
-                  ></svg-icon>
-                  <span v-if="route.meta.title" slot="title">{{
-                    $t('route.' + route.meta.title)
-                  }}</span>
-                </template>
-              </el-menu-item>
-            </el-menu>
+                <el-menu-item
+                  v-for="route of routes"
+                  :key="route.name"
+                  :index="route.path"
+                  :route="route.path"
+                >
+                  <template v-if="!route.hidden && route.meta">
+                    <svg-icon
+                      v-if="route.meta.icon"
+                      :name="route.meta.icon"
+                    ></svg-icon>
+                    <span v-if="route.meta.title" slot="title">{{
+                      $t('route.' + route.meta.title)
+                    }}</span>
+                  </template>
+                </el-menu-item>
+              </el-menu>
+            </div>
           </el-col>
-          <el-col :span="4">4</el-col>
+          <el-col :span="4">
+            <div class="grid-content nav-right">
+              <el-button size="small" type="primary">登录</el-button>
+              <el-button size="small" type="danger">注册</el-button>
+            </div>
+          </el-col>
         </el-row>
       </div>
     </div>
@@ -86,26 +96,43 @@ export default class extends Vue {
 </script>
 <style lang="less" scoped>
 .top-nav {
-  // position: fixed;
-  // top: 0;
-  // left: 0;
-  // z-index: 1000;
   width: 100%;
-  border-bottom: 1px solid #eeeeee;
-  background-color: aqua;
+  // border-bottom: 1px solid #eeeeee;
+  // background-color: aqua;
   .top-nav-content {
     // width: 1200px; // 前台页面设置内容宽度为1200px
     width: 100%;
     margin: 0 auto;
+    .grid-content {
+      height: @topBarHeight;
+      &.nav-right {
+        display: flex;
+        align-items: center;
+      }
+    }
     .logo-link {
-      display: block;
-      line-height: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+      h3 {
+        margin: 0;
+      }
       .logo {
-        height: 60px;
+        height: @topBarHeight;
         margin: 0;
         border-radius: 50%;
         padding-top: 0;
       }
+    }
+
+    .el-menu--horizontal > .el-menu-item {
+      height: @topBarHeight;
+      line-height: @topBarHeight;
+    }
+    .el-menu--horizontal {
+      border-bottom: none;
     }
   }
 }

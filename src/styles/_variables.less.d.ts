@@ -1,7 +1,7 @@
 export interface ILessVariables {
-  menuBg: string;
-  menuText: string;
-  menuActiveText: string;
+  topBarMenuBg: string;
+  topBarMenuText: string;
+  topBarMenuActiveText: string;
 }
 
 export const variables: ILessVariables;

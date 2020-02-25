@@ -1,16 +1,14 @@
 <template>
   <el-container :class="classObj" class="app-wrapper">
-    <el-header>
+    <header class="topnav-container">
       <top-navbar></top-navbar>
-    </el-header>
-    <el-container>
-      <el-aside width="200px">
-        <sidebar v-if="update" />
-      </el-aside>
-      <el-main>
+    </header>
+    <div class="main-wrapper">
+      <sidebar class="sidebar-container" v-if="update" />
+      <main class="main-container">
         <router-view />
-      </el-main>
-    </el-container>
+      </main>
+    </div>
   </el-container>
 </template>
 <script lang="ts">
@@ -19,6 +17,7 @@ import { mixins } from 'vue-class-component';
 import ResizeMixin from './mixin/ResizeHandler';
 import { DeviceType } from '../store/modules/app';
 import { TopNavbar, Sidebar } from './components';
+import variables from '@/styles/_variables.less';
 
 @Component({
   name: 'Layout',
@@ -49,7 +48,7 @@ export default class extends mixins(ResizeMixin) {
   background-color: #b3c0d1;
   color: #333;
   text-align: center;
-  line-height: 60px;
+  // line-height: 60px;
   padding: 0;
 }
 
@@ -60,10 +59,51 @@ export default class extends mixins(ResizeMixin) {
   line-height: 200px;
 }
 
+.app-wrapper {
+  .clearfix;
+  position: relative;
+  height: 100%;
+  width: 100%;
+  .topnav-container {
+    height: @topBarHeight;
+    // overflow: hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+  .main-wrapper {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: @topBarHeight;
+    border-top: 1px solid #eee;
+    .sidebar-container {
+      transition: width 0.5s;
+      width: @sideBarWidth !important;
+      height: 100%;
+      position: fixed;
+      top: calc(@topBarHeight + 1px);
+      left: 0;
+      bottom: 0;
+      z-index: 1001;
+      font-size: 0;
+      overflow: hidden;
+      border-right: 1px solid #eee;
+    }
+    .main-container {
+      min-height: 100%;
+      transition: margin-left 0.5s;
+      margin-left: @sideBarWidth;
+      position: relative;
+    }
+  }
+}
+
 .el-main {
   background-color: #e9eef3;
   color: #333;
   text-align: center;
-  line-height: 160px;
+  // line-height: 160px;
 }
 </style>

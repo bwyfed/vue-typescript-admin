@@ -1,10 +1,9 @@
 <template>
-  <div class="sidebar-container">
-    <div wrap-class="scrollbar-wrapper">
+  <div>
+    <el-scrollbar wrap-class="scrollbar-wrapper">
       <el-menu
         :router="true"
         :default-active="activeMenu"
-        :collapse="isCollapse"
         :background-color="variables.menuBg"
         :text-color="variables.menuText"
         :unique-opened="false"
@@ -24,7 +23,7 @@
           }}</span>
         </el-menu-item>
       </el-menu>
-    </div>
+    </el-scrollbar>
   </div>
 </template>
 
@@ -65,4 +64,39 @@ export default class extends Vue {
 }
 </script>
 
-<style lang="less" scoped></style>
+<style lang="less">
+.sidebar-container {
+  .scrollbar-wrapper {
+    overflow-x: hidden !important;
+    .el-scrollbar__view {
+      height: 100%;
+    }
+  }
+
+  .el-scrollbar__bar {
+    &.is-vertical {
+      right: 0px;
+    }
+
+    &.is-horizontal {
+      display: none;
+    }
+  }
+}
+</style>
+<style lang="less" scoped>
+.el-scrollbar {
+  height: 100%;
+  .el-menu {
+    border: none;
+    height: 100%;
+    width: 100% !important;
+    .svg-icon {
+      margin-right: 16px;
+    }
+    .el-menu-item {
+      border-bottom: 1px solid #eeeeee;
+    }
+  }
+}
+</style>
