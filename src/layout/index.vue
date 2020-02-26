@@ -6,7 +6,7 @@
     <div class="main-wrapper">
       <sidebar class="sidebar-container" v-if="update" />
       <main class="main-container">
-        <router-view />
+        <app-main />
       </main>
     </div>
   </el-container>
@@ -16,12 +16,12 @@ import { Component, Watch } from 'vue-property-decorator';
 import { mixins } from 'vue-class-component';
 import ResizeMixin from './mixin/ResizeHandler';
 import { DeviceType } from '../store/modules/app';
-import { TopNavbar, Sidebar } from './components';
+import { AppMain, TopNavbar, Sidebar } from './components';
 import variables from '@/styles/_variables.less';
 
 @Component({
   name: 'Layout',
-  components: { TopNavbar, Sidebar },
+  components: { AppMain, TopNavbar, Sidebar },
 })
 export default class extends mixins(ResizeMixin) {
   private update = true;
