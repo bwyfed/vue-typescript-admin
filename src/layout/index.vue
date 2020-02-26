@@ -96,6 +96,7 @@ export default class extends mixins(ResizeMixin) {
       transition: margin-left 0.5s;
       margin-left: @sideBarWidth;
       position: relative;
+      background-color: rgb(242, 242, 242);
     }
   }
 }

@@ -1,5 +1,6 @@
 import { Component, Vue, Watch } from 'vue-property-decorator';
 import { AppModule, DeviceType } from '@/store/modules/app';
+import { StepsModule } from '@/store/modules/steps';
 import { constantRoutes } from '@/router';
 
 const WIDTH = 992; // refer to Bootstrap's responsive design
@@ -24,6 +25,14 @@ export default class extends Vue {
       AppModule.CloseSideBar(false);
     }
     this.setSidebarRoutes();
+    const routeReverseMap = {
+      '/dashboard/basicinfo': 1,
+      '/dashboard/mapregion': 2,
+      '/dashboard/modelparams': 3,
+      '/dashboard/otherconfig': 4,
+      '/dashboard/confirminfo': 5,
+    } as any;
+    StepsModule.SetCurrentStep(routeReverseMap[this.$route.path]);
   }
 
   beforeMount() {

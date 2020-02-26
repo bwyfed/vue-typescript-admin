@@ -54,7 +54,7 @@ export const constantRoutes: RouteLayoutInterface[] = [
     path: '/dashboard',
     name: 'DashboardRoot',
     component: Layout,
-    redirect: '/dashboard/index',
+    redirect: '/dashboard/basicinfo',
     meta: {
       title: 'dashboard',
       icon: 'dashboard',
@@ -62,30 +62,74 @@ export const constantRoutes: RouteLayoutInterface[] = [
     },
     children: [
       {
-        name: 'DashboardIndex',
-        path: 'index',
+        name: 'DashboardBasicInfo',
+        path: 'basicinfo',
         component: () =>
           import(
-            /* webpackChunkName: "dashboard"*/ '@/views/dashboard/index.vue'
+            /* webpackChunkName: "basic-info"*/ '@/views/basic-info/index.vue'
           ),
         meta: {
-          title: 'dashboard',
+          title: 'basicinfo',
           icon: 'dashboard',
           activeMenu: '/dashboard',
         },
-        fullPath: '/dashboard/index',
+        fullPath: '/dashboard/basicinfo',
       },
       {
-        path: 'about',
-        name: 'DashboardAbout',
+        name: 'DashboardMapRegion',
+        path: 'mapregion',
         component: () =>
-          import(/*webpackChunkName: "about"*/ '@/views/About.vue'),
+          import(
+            /*webpackChunkName: "map-region"*/ '@/views/map-region/index.vue'
+          ),
         meta: {
-          title: 'charts',
+          title: 'mapregion',
           icon: 'education',
           activeMenu: '/dashboard',
         },
-        fullPath: '/dashboard/about',
+        fullPath: '/dashboard/mapregion',
+      },
+      {
+        name: 'DashboardModelParams',
+        path: 'modelparams',
+        component: () =>
+          import(
+            /*webpackChunkName: "model-params"*/ '@/views/model-params/index.vue'
+          ),
+        meta: {
+          title: 'modelparams',
+          icon: 'education',
+          activeMenu: '/dashboard',
+        },
+        fullPath: '/dashboard/modelparams',
+      },
+      {
+        name: 'DashboardOtherConfig',
+        path: 'otherconfig',
+        component: () =>
+          import(
+            /*webpackChunkName: "otherconfig"*/ '@/views/other-config/index.vue'
+          ),
+        meta: {
+          title: 'otherconfig',
+          icon: 'education',
+          activeMenu: '/dashboard',
+        },
+        fullPath: '/dashboard/otherconfig',
+      },
+      {
+        name: 'DashboardConfirmInfo',
+        path: 'confirminfo',
+        component: () =>
+          import(
+            /*webpackChunkName: "confirm-info"*/ '@/views/confirm-info/index.vue'
+          ),
+        meta: {
+          title: 'confirminfo',
+          icon: 'education',
+          activeMenu: '/dashboard',
+        },
+        fullPath: '/dashboard/confirminfo',
       },
     ],
   },
